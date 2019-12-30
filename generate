@@ -1,0 +1,8 @@
+#!/bin/bash
+
+exec docker run --rm -v ${PWD}:/local \
+    -e GO_POST_PROCESS_FILE="/usr/local/bin/gofmt -w" \
+    openapitools/openapi-generator-cli \
+    generate -i /local/titan.yml -g go -o /local \
+    --additional-properties=packageName=titanclient \
+    --git-user-id=titan-data --git-repo-id=titan-client-go
