@@ -2,4 +2,4 @@
 
 exec docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli \
     generate -i /local/titan.yml -g go -o /local \
-    --additional-properties=packageName=titan-client
+    --additional-properties=packageName=titanclient
