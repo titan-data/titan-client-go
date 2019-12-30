@@ -13,6 +13,7 @@ code, you will need to:
 2. Run `generate`. This requires docker, and likely work on windows systems. If necessary, you can run the openapi
    generator by hand, but you will be responsible for ensuring the right options are specified.
 3. If the new API spec contains renamed or deleted objects, you will need to manually delete those objects.
+4. Run `go build` to properly set the go version in the `go.mod` file.
 
 ## Building
 
