@@ -1,0 +1,1780 @@
+openapi: 3.0.2
+info:
+  description: API used by the Titan CLI
+  title: Titan API
+  version: 0.3.0
+servers:
+- url: http://localhost:5001
+paths:
+  /v1/context:
+    get:
+      operationId: getContext
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/context'
+          description: Current context
+      summary: Get current context
+      tags:
+      - contexts
+  /v1/repositories:
+    get:
+      operationId: listRepositories
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/repository'
+                type: array
+          description: List of repositories
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: List repositories
+      tags:
+      - repositories
+    post:
+      operationId: createRepository
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/repository'
+        description: New repository to create
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/repository'
+          description: Newly created repository
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Create new repository
+      tags:
+      - repositories
+  /v1/repositories/{repositoryName}:
+    delete:
+      operationId: deleteRepository
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Repository deleted
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Remove a repository
+      tags:
+      - repositories
+    get:
+      operationId: getRepository
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/repository'
+          description: Repository info
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get info for a repository
+      tags:
+      - repositories
+    post:
+      operationId: updateRepository
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/repository'
+        description: New repository
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/repository'
+          description: Updated repository
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Update or rename a repository
+      tags:
+      - repositories
+  /v1/repositories/{repositoryName}/status:
+    get:
+      operationId: getRepositoryStatus
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/repositoryStatus'
+          description: Repository status
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get current status of a repository
+      tags:
+      - repositories
+  /v1/repositories/{repositoryName}/volumes:
+    get:
+      operationId: listVolumes
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/volume'
+                type: array
+          description: List of volumes
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: List volumes
+      tags:
+      - volumes
+    post:
+      operationId: createVolume
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/volume'
+        description: New volume to create
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/volume'
+          description: Newly created volume
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Create new volume
+      tags:
+      - volumes
+  /v1/repositories/{repositoryName}/volumes/{volumeName}:
+    delete:
+      operationId: deleteVolume
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the volume
+        explode: false
+        in: path
+        name: volumeName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Volume deleted
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Remove a volume
+      tags:
+      - volumes
+    get:
+      operationId: getVolume
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the volume
+        explode: false
+        in: path
+        name: volumeName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/volume'
+          description: Volume info
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get info for a volume
+      tags:
+      - volumes
+  /v1/repositories/{repositoryName}/volumes/{volumeName}/activate:
+    post:
+      operationId: activateVolume
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the volume
+        explode: false
+        in: path
+        name: volumeName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Activated repository
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Activate a volume for use by a repository (e.g. mount)
+      tags:
+      - volumes
+  /v1/repositories/{repositoryName}/volumes/{volumeName}/deactivate:
+    post:
+      operationId: deactivateVolume
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the volume
+        explode: false
+        in: path
+        name: volumeName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Deactivated repository
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Deactivate a volume prior to its deletion (e.g. unmount)
+      tags:
+      - volumes
+  /v1/repositories/{repositoryName}/volumes/{volumeName}/status:
+    get:
+      operationId: getVolumeStatus
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the volume
+        explode: false
+        in: path
+        name: volumeName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/volumeStatus'
+          description: Volume status
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get status of a volume
+      tags:
+      - volumes
+  /v1/repositories/{repositoryName}/commits:
+    get:
+      operationId: listCommits
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Tags (name or name=value) to search for
+        explode: true
+        in: query
+        name: tag
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/commit'
+                type: array
+          description: List of commits
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get commit history for a repository
+      tags:
+      - commits
+    post:
+      operationId: createCommit
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/commit'
+        description: New commit to create
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/commit'
+          description: Newly created commit
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Create new commit
+      tags:
+      - commits
+  /v1/repositories/{repositoryName}/commits/{commitId}:
+    delete:
+      operationId: deleteCommit
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Commit discarded
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Discard a past commit
+      tags:
+      - commits
+    get:
+      operationId: getCommit
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/commit'
+          description: Commit information
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get information for a specific commit
+      tags:
+      - commits
+    post:
+      operationId: updateCommit
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/commit'
+        description: Commit contents to update
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/commit'
+          description: Updated commit
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Update tags for a previous commit
+      tags:
+      - commits
+  /v1/repositories/{repositoryName}/commits/{commitId}/status:
+    post:
+      operationId: getCommitStatus
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/commitStatus'
+          description: Commit status
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get commit status
+      tags:
+      - commits
+  /v1/repositories/{repositoryName}/commits/{commitId}/checkout:
+    post:
+      operationId: checkoutCommit
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Commit checked out
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Checkout the given commit
+      tags:
+      - commits
+  /v1/repositories/{repositoryName}/remotes:
+    get:
+      operationId: listRemotes
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/remote'
+                type: array
+          description: List of remotes
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get list of remotes
+      tags:
+      - remotes
+    post:
+      operationId: createRemote
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/remote'
+        description: Remote to create
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/remote'
+          description: Newly created remote
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Create new remote
+      tags:
+      - remotes
+  /v1/repositories/{repositoryName}/remotes/{remoteName}:
+    delete:
+      operationId: deleteRemote
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the remote
+        explode: false
+        in: path
+        name: remoteName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Remote deleted
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Delete remote
+      tags:
+      - remotes
+    get:
+      operationId: getRemote
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the remote
+        explode: false
+        in: path
+        name: remoteName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/remote'
+          description: Remote information
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get information about a particular remote
+      tags:
+      - remotes
+    post:
+      operationId: updateRemote
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the remote
+        explode: false
+        in: path
+        name: remoteName
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/remote'
+        description: Remote information to update
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/remote'
+          description: Remote information
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Update remote information
+      tags:
+      - remotes
+  /v1/repositories/{repositoryName}/remotes/{remoteName}/commits:
+    get:
+      operationId: listRemoteCommits
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the remote
+        explode: false
+        in: path
+        name: remoteName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Remote-specific parameters
+        explode: false
+        in: header
+        name: titan-remote-parameters
+        required: true
+        schema:
+          $ref: '#/components/schemas/remoteParameters'
+        style: simple
+      - description: Tags (name or name=value) to search for
+        explode: true
+        in: query
+        name: tag
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/commit'
+                type: array
+          description: List of commits
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: List remote commits
+      tags:
+      - remotes
+  /v1/repositories/{repositoryName}/remotes/{remoteName}/commits/{commitId}:
+    get:
+      operationId: getRemoteCommit
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the remote
+        explode: false
+        in: path
+        name: remoteName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Remote-specific parameters
+        explode: false
+        in: header
+        name: titan-remote-parameters
+        required: true
+        schema:
+          $ref: '#/components/schemas/remoteParameters'
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/commit'
+          description: Remote commit
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get a remote commit
+      tags:
+      - remotes
+  /v1/operations:
+    get:
+      operationId: listOperations
+      parameters:
+      - description: Limit to the given repository
+        explode: true
+        in: query
+        name: repository
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/operation'
+                type: array
+          description: List of operations
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: List operations
+      tags:
+      - operations
+  /v1/operations/{operationId}:
+    delete:
+      operationId: abortOperation
+      parameters:
+      - description: Operation identifier
+        explode: false
+        in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        204:
+          description: Operation aborted
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Abort operation
+      tags:
+      - operations
+    get:
+      operationId: getOperation
+      parameters:
+      - description: Operation identifier
+        explode: false
+        in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/operation'
+          description: Operation information
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get operation
+      tags:
+      - operations
+  /v1/operations/{operationId}/progress:
+    get:
+      operationId: getOperationProgress
+      parameters:
+      - description: Operation identifier
+        explode: false
+        in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: lastId
+        required: false
+        schema:
+          description: Only return entries with an id greater than this value
+          type: integer
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/progressEntry'
+                type: array
+          description: Operation progress information
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Get operation progress
+      tags:
+      - operations
+  /v1/repositories/{repositoryName}/remotes/{remoteName}/commits/{commitId}/pull:
+    post:
+      operationId: pull
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the remote
+        explode: false
+        in: path
+        name: remoteName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Transfer only tag metadata
+        explode: true
+        in: query
+        name: metadataOnly
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/remoteParameters'
+        description: Provider specific parameters
+        required: false
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/operation'
+          description: New operation
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Start a pull operation
+      tags:
+      - operations
+  /v1/repositories/{repositoryName}/remotes/{remoteName}/commits/{commitId}/push:
+    post:
+      operationId: push
+      parameters:
+      - description: Name of the repository
+        explode: false
+        in: path
+        name: repositoryName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Name of the remote
+        explode: false
+        in: path
+        name: remoteName
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Commit identifier
+        explode: false
+        in: path
+        name: commitId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Transfer only tag metadata
+        explode: true
+        in: query
+        name: metadataOnly
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/remoteParameters'
+        description: Provider specific parameters
+        required: false
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/operation'
+          description: New operation
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: Malformed user input
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: No such object
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiError'
+          description: An internal error occurred
+      summary: Start a push operation
+      tags:
+      - operations
+components:
+  parameters:
+    repositoryName:
+      description: Name of the repository
+      explode: false
+      in: path
+      name: repositoryName
+      required: true
+      schema:
+        type: string
+      style: simple
+    remoteName:
+      description: Name of the remote
+      explode: false
+      in: path
+      name: remoteName
+      required: true
+      schema:
+        type: string
+      style: simple
+    commitId:
+      description: Commit identifier
+      explode: false
+      in: path
+      name: commitId
+      required: true
+      schema:
+        type: string
+      style: simple
+    operationId:
+      description: Operation identifier
+      explode: false
+      in: path
+      name: operationId
+      required: true
+      schema:
+        type: string
+      style: simple
+    volumeName:
+      description: Name of the volume
+      explode: false
+      in: path
+      name: volumeName
+      required: true
+      schema:
+        type: string
+      style: simple
+    remoteParameters:
+      description: Remote-specific parameters
+      explode: false
+      in: header
+      name: titan-remote-parameters
+      required: true
+      schema:
+        $ref: '#/components/schemas/remoteParameters'
+      style: simple
+    tagQuery:
+      description: Tags (name or name=value) to search for
+      explode: true
+      in: query
+      name: tag
+      required: false
+      schema:
+        items:
+          type: string
+        type: array
+      style: form
+    metadataOnlyQuery:
+      description: Transfer only tag metadata
+      explode: true
+      in: query
+      name: metadataOnly
+      required: false
+      schema:
+        type: boolean
+      style: form
+  responses:
+    apiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/apiError'
+      description: An internal error occurred
+    badInput:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/apiError'
+      description: Malformed user input
+    noSuchObject:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/apiError'
+      description: No such object
+  schemas:
+    commit:
+      example:
+        id: id
+        properties: '{}'
+      properties:
+        id:
+          description: Commit identifier
+          type: string
+        properties:
+          description: Additional commit metadata
+          type: object
+      required:
+      - id
+      - properties
+      type: object
+    commitStatus:
+      example:
+        uniqueSize: 1
+        actualSize: 6
+        logicalSize: 0
+        ready: true
+        error: error
+      properties:
+        logicalSize:
+          description: Logical size of data referenced by commit
+          format: int64
+          type: integer
+        actualSize:
+          description: Actual size of data referenced by commit
+          format: int64
+          type: integer
+        uniqueSize:
+          description: Amount of data uniquely held by this commit
+          format: int64
+          type: integer
+        ready:
+          description: Whether this commit can be used as the source of an operation
+            or whether it's still being created
+          type: boolean
+        error:
+          description: If commit failed to be created, error string explaining why
+          type: string
+      required:
+      - actualSize
+      - logicalSize
+      - ready
+      - uniqueSize
+      type: object
+    context:
+      example:
+        provider: provider
+        properties: '{}'
+      properties:
+        provider:
+          description: Provider type
+          type: string
+        properties:
+          description: Additional provider-specific configuration
+          type: object
+      required:
+      - properties
+      - provider
+      type: object
+    apiError:
+      properties:
+        code:
+          description: Unique code for the error
+          type: string
+        message:
+          description: Human readable description of the error
+          type: string
+        details:
+          description: Additional details, such as server-side stack trace
+          type: string
+      required:
+      - message
+      type: object
+    operation:
+      example:
+        id: id
+        state: RUNNING
+        commitId: commitId
+        type: PUSH
+        remote: remote
+      properties:
+        id:
+          description: Unique identifier for the operation
+          type: string
+        type:
+          description: Operation type
+          enum:
+          - PUSH
+          - PULL
+          type: string
+        state:
+          description: Current operation state
+          enum:
+          - RUNNING
+          - ABORTED
+          - FAILED
+          - COMPLETE
+          type: string
+        remote:
+          description: Name of remote associated with the operation
+          type: string
+        commitId:
+          description: Commit identifier being pushed or pulled
+          type: string
+      required:
+      - commitId
+      - id
+      - remote
+      - state
+      - type
+      type: object
+    progressEntry:
+      example:
+        id: 0
+        type: MESSAGE
+        message: message
+        percent: 60
+      properties:
+        id:
+          description: Sequenced entry identifier
+          type: integer
+        type:
+          description: Entry type
+          enum:
+          - MESSAGE
+          - START
+          - PROGRESS
+          - END
+          - ERROR
+          - ABORT
+          - FAILED
+          - COMPLETE
+          type: string
+        message:
+          description: Optional message for progress step
+          type: string
+        percent:
+          description: Optional percent for step
+          maximum: 100
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - type
+      type: object
+    remote:
+      example:
+        provider: provider
+        name: name
+        properties: '{}'
+      properties:
+        provider:
+          description: Remote type
+          type: string
+        name:
+          description: Name of remote
+          type: string
+        properties:
+          description: Provider-specific remote properties
+          type: object
+      required:
+      - name
+      - propertiers
+      - provider
+      type: object
+    remoteParameters:
+      properties:
+        provider:
+          description: Remote type
+          type: string
+        properties:
+          description: Provider-specific remote properties
+          type: object
+      required:
+      - propertiers
+      - provider
+      type: object
+    repository:
+      example:
+        name: name
+        properties: '{}'
+      properties:
+        name:
+          description: Repository name
+          type: string
+        properties:
+          description: Client-specific propertiers
+          type: object
+      required:
+      - name
+      - propertiers
+      type: object
+    repositoryStatus:
+      example:
+        lastCommit: lastCommit
+        sourceCommit: sourceCommit
+      properties:
+        lastCommit:
+          description: The latest commit ID for the repository
+          type: string
+        sourceCommit:
+          description: The source commit for the current state (last checkout or commit)
+          type: string
+      type: object
+    volume:
+      example:
+        name: name
+        config: '{}'
+        properties: '{}'
+      properties:
+        name:
+          description: Volume name
+          type: string
+        properties:
+          description: Client-specific properties
+          type: object
+        config:
+          description: Server-generated configuration
+          type: object
+      required:
+      - name
+      - properties
+      type: object
+    volumeStatus:
+      example:
+        actualSize: 6
+        logicalSize: 0
+        ready: true
+        name: name
+        error: error
+        properties: '{}'
+      properties:
+        name:
+          description: Volume name
+          type: string
+        logicalSize:
+          description: Logical size consumed by the volume
+          format: int64
+          type: integer
+        actualSize:
+          description: Actual (compressed) size used by the volume
+          format: int64
+          type: integer
+        properties:
+          description: Client-specific properties
+          type: object
+        ready:
+          description: True if the volume is ready for use in a runtime environmemnt
+          type: boolean
+        error:
+          description: Optional error message if volume asynchronously failed to be
+            created
+          type: string
+      required:
+      - actualSize
+      - logicalSize
+      - name
+      - properties
+      - ready
+      type: object
