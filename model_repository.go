@@ -12,6 +12,6 @@ package titanclient
 type Repository struct {
 	// Repository name
 	Name string `json:"name"`
-	// Client-specific propertiers
-	Properties map[string]interface{} `json:"properties,omitempty"`
+	// Client-specific properties
+	Properties map[string]interface{} `json:"properties"`
 }

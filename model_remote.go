@@ -15,5 +15,5 @@ type Remote struct {
 	// Name of remote
 	Name string `json:"name"`
 	// Provider-specific remote properties
-	Properties map[string]interface{} `json:"properties,omitempty"`
+	Properties map[string]interface{} `json:"properties"`
 }
