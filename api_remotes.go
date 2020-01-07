@@ -69,6 +69,7 @@ func (a *RemotesApiService) CreateRemote(ctx _context.Context, repositoryName st
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	// body params
 	localVarPostBody = &remote
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
@@ -186,6 +187,7 @@ func (a *RemotesApiService) DeleteRemote(ctx _context.Context, repositoryName st
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -274,6 +276,7 @@ func (a *RemotesApiService) GetRemote(ctx _context.Context, repositoryName strin
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -385,7 +388,11 @@ func (a *RemotesApiService) GetRemoteCommit(ctx _context.Context, repositoryName
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarHeaderParams["titan-remote-parameters"] = parameterToString(titanRemoteParameters, "")
+	var err error
+	localVarHeaderParams["titan-remote-parameters"], err = parameterToJson(titanRemoteParameters)
+    if err != nil {
+        return localVarReturnValue, nil, err
+    }
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -522,7 +529,11 @@ func (a *RemotesApiService) ListRemoteCommits(ctx _context.Context, repositoryNa
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarHeaderParams["titan-remote-parameters"] = parameterToString(titanRemoteParameters, "")
+	var err error
+	localVarHeaderParams["titan-remote-parameters"], err = parameterToJson(titanRemoteParameters)
+    if err != nil {
+        return localVarReturnValue, nil, err
+    }
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -637,6 +648,7 @@ func (a *RemotesApiService) ListRemotes(ctx _context.Context, repositoryName str
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -745,6 +757,7 @@ func (a *RemotesApiService) UpdateRemote(ctx _context.Context, repositoryName st
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	// body params
 	localVarPostBody = &remote
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)

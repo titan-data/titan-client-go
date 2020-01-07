@@ -65,6 +65,7 @@ func (a *OperationsApiService) AbortOperation(ctx _context.Context, operationId 
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -150,6 +151,7 @@ func (a *OperationsApiService) GetOperation(ctx _context.Context, operationId st
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -264,6 +266,7 @@ func (a *OperationsApiService) GetOperationProgress(ctx _context.Context, operat
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -375,6 +378,7 @@ func (a *OperationsApiService) ListOperations(ctx _context.Context, localVarOpti
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -487,6 +491,7 @@ func (a *OperationsApiService) Pull(ctx _context.Context, repositoryName string,
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	// body params
 	if localVarOptionals != nil && localVarOptionals.RemoteParameters.IsSet() {
 		localVarOptionalRemoteParameters, localVarOptionalRemoteParametersok := localVarOptionals.RemoteParameters.Value().(RemoteParameters)
@@ -628,6 +633,7 @@ func (a *OperationsApiService) Push(ctx _context.Context, repositoryName string,
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	var err error
 	// body params
 	if localVarOptionals != nil && localVarOptionals.RemoteParameters.IsSet() {
 		localVarOptionalRemoteParameters, localVarOptionalRemoteParametersok := localVarOptionals.RemoteParameters.Value().(RemoteParameters)

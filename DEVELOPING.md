@@ -15,6 +15,9 @@ code, you will need to:
 3. If the new API spec contains renamed or deleted objects, you will need to manually delete those objects.
 4. Run `go build` to properly set the go version in the `go.mod` file.
 
+If you update to a later version of the openapi generator, you will need to update the mustache templates in
+`templates`, which include a change to `api.mustache` to pass header parameters as JSON instead of strings.
+
 ## Building
 
 Run `go build` to build the package.
