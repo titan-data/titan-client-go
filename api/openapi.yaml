@@ -1680,7 +1680,7 @@ components:
           type: object
       required:
       - name
-      - propertiers
+      - properties
       - provider
       type: object
     remoteParameters:
@@ -1692,7 +1692,7 @@ components:
           description: Provider-specific remote properties
           type: object
       required:
-      - propertiers
+      - properties
       - provider
       type: object
     repository:
@@ -1704,11 +1704,11 @@ components:
           description: Repository name
           type: string
         properties:
-          description: Client-specific propertiers
+          description: Client-specific properties
           type: object
       required:
       - name
-      - propertiers
+      - properties
       type: object
     repositoryStatus:
       example:
