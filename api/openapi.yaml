@@ -1318,7 +1318,7 @@ paths:
             schema:
               $ref: '#/components/schemas/remoteParameters'
         description: Provider specific parameters
-        required: false
+        required: true
       responses:
         201:
           content:
@@ -1389,7 +1389,7 @@ paths:
             schema:
               $ref: '#/components/schemas/remoteParameters'
         description: Provider specific parameters
-        required: false
+        required: true
       responses:
         201:
           content:
