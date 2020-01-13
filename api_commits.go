@@ -436,7 +436,7 @@ GetCommitStatus Get commit status
 */
 func (a *CommitsApiService) GetCommitStatus(ctx _context.Context, repositoryName string, commitId string) (CommitStatus, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

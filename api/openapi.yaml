@@ -713,7 +713,7 @@ paths:
       tags:
       - commits
   /v1/repositories/{repositoryName}/commits/{commitId}/status:
-    post:
+    get:
       operationId: getCommitStatus
       parameters:
       - description: Name of the repository
