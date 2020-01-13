@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**CreateCommit**](CommitsApi.md#CreateCommit) | **Post** /v1/repositories/{repositoryName}/commits | Create new commit
 [**DeleteCommit**](CommitsApi.md#DeleteCommit) | **Delete** /v1/repositories/{repositoryName}/commits/{commitId} | Discard a past commit
 [**GetCommit**](CommitsApi.md#GetCommit) | **Get** /v1/repositories/{repositoryName}/commits/{commitId} | Get information for a specific commit
-[**GetCommitStatus**](CommitsApi.md#GetCommitStatus) | **Post** /v1/repositories/{repositoryName}/commits/{commitId}/status | Get commit status
+[**GetCommitStatus**](CommitsApi.md#GetCommitStatus) | **Get** /v1/repositories/{repositoryName}/commits/{commitId}/status | Get commit status
 [**ListCommits**](CommitsApi.md#ListCommits) | **Get** /v1/repositories/{repositoryName}/commits | Get commit history for a repository
 [**UpdateCommit**](CommitsApi.md#UpdateCommit) | **Post** /v1/repositories/{repositoryName}/commits/{commitId} | Update tags for a previous commit
 
