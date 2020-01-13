@@ -435,7 +435,6 @@ func (a *OperationsApiService) ListOperations(ctx _context.Context, localVarOpti
 // PullOpts Optional parameters for the method 'Pull'
 type PullOpts struct {
     MetadataOnly optional.Bool
-    RemoteParameters optional.Interface
 }
 
 /*
@@ -444,12 +443,12 @@ Pull Start a pull operation
  * @param repositoryName Name of the repository
  * @param remoteName Name of the remote
  * @param commitId Commit identifier
+ * @param remoteParameters Provider specific parameters
  * @param optional nil or *PullOpts - Optional Parameters:
  * @param "MetadataOnly" (optional.Bool) -  Transfer only tag metadata
- * @param "RemoteParameters" (optional.Interface of RemoteParameters) -  Provider specific parameters
 @return Operation
 */
-func (a *OperationsApiService) Pull(ctx _context.Context, repositoryName string, remoteName string, commitId string, localVarOptionals *PullOpts) (Operation, *_nethttp.Response, error) {
+func (a *OperationsApiService) Pull(ctx _context.Context, repositoryName string, remoteName string, commitId string, remoteParameters RemoteParameters, localVarOptionals *PullOpts) (Operation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -493,14 +492,7 @@ func (a *OperationsApiService) Pull(ctx _context.Context, repositoryName string,
 	}
 	var err error
 	// body params
-	if localVarOptionals != nil && localVarOptionals.RemoteParameters.IsSet() {
-		localVarOptionalRemoteParameters, localVarOptionalRemoteParametersok := localVarOptionals.RemoteParameters.Value().(RemoteParameters)
-		if !localVarOptionalRemoteParametersok {
-			return localVarReturnValue, nil, reportError("remoteParameters should be RemoteParameters")
-		}
-		localVarPostBody = &localVarOptionalRemoteParameters
-	}
-
+	localVarPostBody = &remoteParameters
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -577,7 +569,6 @@ func (a *OperationsApiService) Pull(ctx _context.Context, repositoryName string,
 // PushOpts Optional parameters for the method 'Push'
 type PushOpts struct {
     MetadataOnly optional.Bool
-    RemoteParameters optional.Interface
 }
 
 /*
@@ -586,12 +577,12 @@ Push Start a push operation
  * @param repositoryName Name of the repository
  * @param remoteName Name of the remote
  * @param commitId Commit identifier
+ * @param remoteParameters Provider specific parameters
  * @param optional nil or *PushOpts - Optional Parameters:
  * @param "MetadataOnly" (optional.Bool) -  Transfer only tag metadata
- * @param "RemoteParameters" (optional.Interface of RemoteParameters) -  Provider specific parameters
 @return Operation
 */
-func (a *OperationsApiService) Push(ctx _context.Context, repositoryName string, remoteName string, commitId string, localVarOptionals *PushOpts) (Operation, *_nethttp.Response, error) {
+func (a *OperationsApiService) Push(ctx _context.Context, repositoryName string, remoteName string, commitId string, remoteParameters RemoteParameters, localVarOptionals *PushOpts) (Operation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -635,14 +626,7 @@ func (a *OperationsApiService) Push(ctx _context.Context, repositoryName string,
 	}
 	var err error
 	// body params
-	if localVarOptionals != nil && localVarOptionals.RemoteParameters.IsSet() {
-		localVarOptionalRemoteParameters, localVarOptionalRemoteParametersok := localVarOptionals.RemoteParameters.Value().(RemoteParameters)
-		if !localVarOptionalRemoteParametersok {
-			return localVarReturnValue, nil, reportError("remoteParameters should be RemoteParameters")
-		}
-		localVarPostBody = &localVarOptionalRemoteParameters
-	}
-
+	localVarPostBody = &remoteParameters
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

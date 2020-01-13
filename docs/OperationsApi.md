@@ -163,7 +163,7 @@ No authorization required
 
 ## Pull
 
-> Operation Pull(ctx, repositoryName, remoteName, commitId, optional)
+> Operation Pull(ctx, repositoryName, remoteName, commitId, remoteParameters, optional)
 
 Start a pull operation
 
@@ -176,6 +176,7 @@ Name | Type | Description  | Notes
 **repositoryName** | **string**| Name of the repository | 
 **remoteName** | **string**| Name of the remote | 
 **commitId** | **string**| Commit identifier | 
+**remoteParameters** | [**RemoteParameters**](RemoteParameters.md)| Provider specific parameters | 
  **optional** | ***PullOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -188,8 +189,8 @@ Name | Type | Description  | Notes
 
 
 
+
  **metadataOnly** | **optional.Bool**| Transfer only tag metadata | 
- **remoteParameters** | [**optional.Interface of RemoteParameters**](RemoteParameters.md)| Provider specific parameters | 
 
 ### Return type
 
@@ -211,7 +212,7 @@ No authorization required
 
 ## Push
 
-> Operation Push(ctx, repositoryName, remoteName, commitId, optional)
+> Operation Push(ctx, repositoryName, remoteName, commitId, remoteParameters, optional)
 
 Start a push operation
 
@@ -224,6 +225,7 @@ Name | Type | Description  | Notes
 **repositoryName** | **string**| Name of the repository | 
 **remoteName** | **string**| Name of the remote | 
 **commitId** | **string**| Commit identifier | 
+**remoteParameters** | [**RemoteParameters**](RemoteParameters.md)| Provider specific parameters | 
  **optional** | ***PushOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -236,8 +238,8 @@ Name | Type | Description  | Notes
 
 
 
+
  **metadataOnly** | **optional.Bool**| Transfer only tag metadata | 
- **remoteParameters** | [**optional.Interface of RemoteParameters**](RemoteParameters.md)| Provider specific parameters | 
 
 ### Return type
 
